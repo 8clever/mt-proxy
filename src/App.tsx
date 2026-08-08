@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { Heart } from 'lucide-react';
 import { Header } from './components/Header';
 import { StatsOverview } from './components/StatsOverview';
 import { SearchBar } from './components/SearchBar';
@@ -282,7 +283,7 @@ export default function App() {
       />
 
       {/* Main Responsive Viewport for Telegram Mobile */}
-      <main className="max-w-md mx-auto px-3 py-2 pb-16">
+      <main className="max-w-md mx-auto px-3 py-2">
         {/* Metric Cards Overview */}
         <StatsOverview
           totalCount={proxies.length}
@@ -319,6 +320,21 @@ export default function App() {
           onRefresh={() => fetchProxies(true)}
           onConnect={handleConnect}
         />
+
+        {/* Footer */}
+        <footer className="py-8 dark:border-slate-800/80 text-center">
+          <div className="flex items-center justify-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <span>Created with</span>
+            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline-block" />
+            <span>by</span>
+            <span className="font-semibold text-slate-700 dark:text-slate-200">Ivan Vitiaev</span>
+            <span className="text-slate-300 dark:text-slate-600">|</span>
+            <span>2026</span>
+          </div>
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
+            Telegram Proxy List
+          </p>
+        </footer>
       </main>
 
       {/* Quick Connect Random Proxy Modal */}
