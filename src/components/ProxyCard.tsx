@@ -67,7 +67,7 @@ export const ProxyCard: React.FC<ProxyCardProps> = ({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
             {/* IP:PORT Prominent Monospace Display */}
-            <h2 className="text-base sm:text-lg font-mono font-bold tracking-tight text-slate-900 dark:text-slate-100 select-all">
+            <h2 className="text-base sm:text-lg font-mono font-bold tracking-tight text-slate-900 dark:text-slate-100 select-all text-ellipsis overflow-hidden">
               {proxy.ip}:{proxy.port}
             </h2>
 
