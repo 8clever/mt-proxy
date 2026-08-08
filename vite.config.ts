@@ -5,7 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    base: "/mt-proxy/"
+    base: "/mt-proxy/",
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
