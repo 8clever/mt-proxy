@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Send,
   EyeOff,
   Copy,
-  Check,
   Zap,
   ShieldCheck,
   Layers,
   ExternalLink,
-  Globe,
   Key
 } from 'lucide-react';
 import { ProxyItem } from '../types';
@@ -26,8 +24,6 @@ export const ProxyCard: React.FC<ProxyCardProps> = ({
   onCopy,
   onTestPing,
 }) => {
-  const [copiedLink, setCopiedLink] = useState(false);
-
   // Latency Ping Badge
   const renderPingBadge = () => {
     if (proxy.pingStatus === 'testing') {
@@ -62,12 +58,6 @@ export const ProxyCard: React.FC<ProxyCardProps> = ({
         <Zap className="w-2.5 h-2.5" /> Ping
       </button>
     );
-  };
-
-  const handleCopyLink = () => {
-    onCopy(proxy.tgUrl, 'Telegram proxy link');
-    setCopiedLink(true);
-    setTimeout(() => setCopiedLink(false), 1500);
   };
 
   return (
@@ -134,13 +124,13 @@ export const ProxyCard: React.FC<ProxyCardProps> = ({
             <span>IP:Port</span>
           </button>
 
-          <button
-            onClick={handleCopyLink}
+          <a
+            href={proxy.tgUrl}
             className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-[11px] font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition-all"
           >
-            {copiedLink ? <Check className="w-3 h-3 text-emerald-500" /> : <ExternalLink className="w-3 h-3" />}
+            {<ExternalLink className="w-3 h-3" />}
             <span>Link</span>
-          </button>
+          </a>
         </div>
 
         {/* Primary Connect Actions */}
