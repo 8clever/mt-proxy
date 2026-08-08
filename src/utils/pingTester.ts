@@ -23,6 +23,7 @@ export async function testProxyLatency(proxy: ProxyItem): Promise<number | null>
     return Math.min(duration, 999);
   } catch (err: any) {
     clearTimeout(timeoutId);
+    
     const duration = Math.round(performance.now() - startTime);
 
     if (err.name === 'AbortError') {

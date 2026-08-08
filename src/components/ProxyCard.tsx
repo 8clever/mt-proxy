@@ -7,7 +7,8 @@ import {
   ShieldCheck,
   Layers,
   ExternalLink,
-  Key
+  Key,
+  Check
 } from 'lucide-react';
 import { ProxyItem } from '../types';
 
@@ -16,6 +17,7 @@ interface ProxyCardProps {
   onHide: (id: string) => void;
   onCopy: (text: string, label: string) => void;
   onTestPing: (proxy: ProxyItem) => void;
+  onConnect: (proxy: ProxyItem) => void;
 }
 
 export const ProxyCard: React.FC<ProxyCardProps> = ({
@@ -23,6 +25,7 @@ export const ProxyCard: React.FC<ProxyCardProps> = ({
   onHide,
   onCopy,
   onTestPing,
+  onConnect
 }) => {
   // Latency Ping Badge
   const renderPingBadge = () => {
@@ -82,8 +85,12 @@ export const ProxyCard: React.FC<ProxyCardProps> = ({
               </span>
             )}
 
-            {/* Ping Latency Badge */}
-            {renderPingBadge()}
+            {/* Checked Badge */}
+            {proxy.checked && (
+              <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-teal-50 dark:bg-teal-950/80 text-teal-600 dark:text-teal-300 border border-teal-200/50">
+                <Check className="w-3 h-3" /> Checked
+              </span>
+            )}
           </div>
         </div>
 
@@ -125,6 +132,7 @@ export const ProxyCard: React.FC<ProxyCardProps> = ({
           </button>
 
           <a
+            onClick={() => onConnect(proxy)}
             href={proxy.tgUrl}
             className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-[11px] font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition-all"
           >
@@ -137,6 +145,7 @@ export const ProxyCard: React.FC<ProxyCardProps> = ({
         <div className="flex items-center gap-1">
           {/* Direct Telegram Deep Link Connect Button */}
           <a
+            onClick={() => onConnect(proxy)}
             href={proxy.webUrl}
             className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold text-xs shadow-sm transition-all active:scale-95"
           >

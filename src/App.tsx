@@ -8,8 +8,7 @@ import { QuickConnectModal } from './components/QuickConnectModal';
 import { SourceConfigModal } from './components/SourceConfigModal';
 import { ProxyItem, FilterProtocol, SortOption } from './types';
 import { parseProxyList } from './utils/proxyParser';
-import { testProxyLatency, testBatchLatencies } from './utils/pingTester';
-import { Send, Sparkles, RefreshCw, Layers, ShieldCheck, Github } from 'lucide-react';
+import { testProxyLatency } from './utils/pingTester';
 
 const DEFAULT_SOURCE_URL = 'https://raw.githubusercontent.com/kort0881/telegram-proxy-collector/refs/heads/main/proxy_ru.txt';
 
@@ -28,7 +27,6 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [protocolFilter, setProtocolFilter] = useState<FilterProtocol>('all');
   const [sortBy, setSortBy] = useState<SortOption>('default');
-  const [isTestingPing, setIsTestingPing] = useState<boolean>(false);
 
   // UI Modals & Theme (Default to light mode for Clean Minimalism theme)
   const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -249,34 +247,6 @@ export default function App() {
     return list;
   }, [visibleProxies, sortBy]);
 
-  // Test Ping for All Visible
-  const handlePingAllVisible = useCallback(async () => {
-    if (visibleProxies.length === 0) return;
-    setIsTestingPing(true);
-
-    // Set status testing
-    setProxies(prev =>
-      prev.map(p =>
-        visibleProxies.some(vp => vp.id === p.id)
-          ? { ...p, pingStatus: 'testing' }
-          : p
-      )
-    );
-
-    await testBatchLatencies(visibleProxies, (id, ping) => {
-      setProxies(prev =>
-        prev.map(p =>
-          p.id === id
-            ? { ...p, ping, pingStatus: ping !== null ? 'success' : 'failed' }
-            : p
-        )
-      );
-    });
-
-    setIsTestingPing(false);
-    addToast('Speed test complete', 'info');
-  }, [visibleProxies, addToast]);
-
   // Copy All Visible Links
   const handleCopyAllVisibleLinks = useCallback(() => {
     if (visibleProxies.length === 0) return;
@@ -288,6 +258,14 @@ export default function App() {
   const mtprotoCount = useMemo(() => proxies.filter(p => !hiddenIds.has(p.id) && p.protocol === 'MTProto').length, [proxies, hiddenIds]);
   const socks5Count = useMemo(() => proxies.filter(p => !hiddenIds.has(p.id) && p.protocol === 'SOCKS5').length, [proxies, hiddenIds]);
   const fastCount = useMemo(() => proxies.filter(p => !hiddenIds.has(p.id) && p.ping && p.ping < 200).length, [proxies, hiddenIds]);
+
+  const handleConnect = (proxy: ProxyItem) => {
+    const upd = proxies.concat();
+    const i = upd.find(p => p.id === proxy.id);
+    if (!i) return;
+    i.checked = true;
+    setProxies(upd);
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-sky-500 selection:text-white transition-colors duration-200">
@@ -324,9 +302,6 @@ export default function App() {
           onProtocolChange={setProtocolFilter}
           sortBy={sortBy}
           onSortChange={setSortBy}
-          onPingAll={handlePingAllVisible}
-          isTestingPing={isTestingPing}
-          onCopyAllLinks={handleCopyAllVisibleLinks}
           hiddenCount={hiddenIds.size}
           onResetHidden={handleResetHidden}
         />
@@ -342,6 +317,7 @@ export default function App() {
           hiddenCount={hiddenIds.size}
           totalCount={proxies.length}
           onRefresh={() => fetchProxies(true)}
+          onConnect={handleConnect}
         />
       </main>
 

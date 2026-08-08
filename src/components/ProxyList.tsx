@@ -13,6 +13,7 @@ interface ProxyListProps {
   hiddenCount: number;
   totalCount: number;
   onRefresh: () => void;
+  onConnect: (proxy: ProxyItem) => void;
 }
 
 export const ProxyList: React.FC<ProxyListProps> = ({
@@ -25,11 +26,12 @@ export const ProxyList: React.FC<ProxyListProps> = ({
   hiddenCount,
   totalCount,
   onRefresh,
+  onConnect
 }) => {
   // Skeleton Loader State
   if (isLoading && proxies.length === 0) {
     return (
-      <div className="space-y-3 my-4">
+      <div className="space-y-2 my-2">
         {[1, 2, 3, 4, 5].map(i => (
           <div
             key={i}
@@ -105,7 +107,7 @@ export const ProxyList: React.FC<ProxyListProps> = ({
   }
 
   return (
-    <div className="space-y-3 my-3">
+    <div className="space-y-2 my-2">
       {proxies.map(proxy => (
         <ProxyCard
           key={proxy.id}
@@ -113,6 +115,7 @@ export const ProxyList: React.FC<ProxyListProps> = ({
           onHide={onHide}
           onCopy={onCopy}
           onTestPing={onTestPing}
+          onConnect={onConnect}
         />
       ))}
     </div>

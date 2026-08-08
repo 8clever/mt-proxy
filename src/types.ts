@@ -14,6 +14,7 @@ export interface ProxyItem {
   ping?: number | null; // latency in ms
   pingStatus?: 'idle' | 'testing' | 'success' | 'failed';
   addedAt?: number;
+  checked?: boolean;
 }
 
 export type SortOption = 'default' | 'ping-asc' | 'port-asc' | 'ip-asc';

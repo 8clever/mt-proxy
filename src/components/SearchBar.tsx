@@ -9,9 +9,6 @@ interface SearchBarProps {
   onProtocolChange: (protocol: FilterProtocol) => void;
   sortBy: SortOption;
   onSortChange: (sort: SortOption) => void;
-  onPingAll: () => void;
-  isTestingPing: boolean;
-  onCopyAllLinks: () => void;
   hiddenCount: number;
   onResetHidden: () => void;
 }
@@ -23,12 +20,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   onProtocolChange,
   sortBy,
   onSortChange,
-  onPingAll,
-  isTestingPing,
-  onCopyAllLinks,
 }) => {
   return (
-    <div className="flex flex-col gap-2 mb-3">
+    <div className="flex flex-col gap-2 mb-2">
       {/* Search Input Box */}
       <div className="relative flex items-center">
         <Search className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
@@ -87,27 +81,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
         {/* Right Action Utilities */}
         <div className="flex items-center gap-1 ml-auto shrink-0">
-          {/* Test Speed Button */}
-          <button
-            onClick={onPingAll}
-            disabled={isTestingPing}
-            title="Test ping latency"
-            className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20 active:scale-95 text-[11px] font-bold transition-all disabled:opacity-50"
-          >
-            <Zap className={`w-3 h-3 ${isTestingPing ? 'animate-bounce' : ''}`} />
-            <span>{isTestingPing ? 'Ping...' : 'Ping All'}</span>
-          </button>
-
-          {/* Copy All Links Button */}
-          <button
-            onClick={onCopyAllLinks}
-            title="Copy all proxy links"
-            className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 text-[11px] font-bold transition-all"
-          >
-            <Copy className="w-3 h-3" />
-            <span className="hidden xs:inline">Copy Links</span>
-          </button>
-
           {/* Sort Menu */}
           <div className="relative flex items-center">
             <select
@@ -116,7 +89,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({
               className="appearance-none bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-[11px] py-1 pl-2 pr-6 rounded-full border border-slate-200/50 dark:border-slate-700/50 cursor-pointer outline-none focus:ring-1 focus:ring-blue-500"
             >
               <option value="default">Default</option>
-              <option value="ping-asc">Fastest</option>
               <option value="port-asc">Port</option>
               <option value="ip-asc">IP</option>
             </select>
