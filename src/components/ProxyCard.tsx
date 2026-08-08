@@ -145,19 +145,9 @@ export const ProxyCard: React.FC<ProxyCardProps> = ({
 
         {/* Primary Connect Actions */}
         <div className="flex items-center gap-1">
-          <a
-            href={proxy.webUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Open in Browser (t.me)"
-            className="p-2 rounded-full text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors"
-          >
-            <Globe className="w-4 h-4" />
-          </a>
-
           {/* Direct Telegram Deep Link Connect Button */}
           <a
-            href={proxy.tgUrl}
+            href={proxy.webUrl}
             className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-extrabold text-xs shadow-sm transition-all active:scale-95"
           >
             <Send className="w-3.5 h-3.5 fill-current" />
