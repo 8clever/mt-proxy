@@ -22,9 +22,9 @@ export default function App() {
 
   // In-Memory Dismissal / Hiding State (Resets on Refresh / Reload as requested)
   const [hiddenIds, setHiddenIds] = useState<Set<string>>(new Set());
-
+  
   // Filter & Search State
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('/[a-z]/');
   const [protocolFilter, setProtocolFilter] = useState<FilterProtocol>('all');
   const [sortBy, setSortBy] = useState<SortOption>('default');
 
