@@ -1,0 +1,6 @@
+{
+  "name": "Telegram Proxy List",
+  "description": "Mobile-optimized Telegram proxy collector list with instant click-to-connect MTProto & SOCKS5 proxies.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
