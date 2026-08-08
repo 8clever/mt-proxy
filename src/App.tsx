@@ -200,20 +200,32 @@ export default function App() {
 
   // Filter & Process visible proxies
   const visibleProxies = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    let re: RegExp | null = null;
+    if (q.startsWith("/") && q.endsWith("/")) {
+      try {
+        re =  new RegExp(searchQuery.trim().slice(1, -1))
+      } catch {/** empty */}
+    }
     return proxies.filter(p => {
       // 1. In-memory hidden check
-      if (hiddenIds.has(p.id)) return false;
+      if (hiddenIds.has(p.id)) 
+        return false;
 
       // 2. Protocol filter
-      if (protocolFilter !== 'all' && p.protocol !== protocolFilter) return false;
+      if (protocolFilter !== 'all' && p.protocol !== protocolFilter) 
+        return false;
+
+      // search by regex
+      if (re) {
+        return re.test(p.ip)
+      }
 
       // 3. Search query filter
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase().trim();
+      if (q.length) {
         const matchesIp = p.ip.toLowerCase().includes(q);
         const matchesPort = p.port.toString().includes(q);
-        const matchesSecret = p.secret ? p.secret.toLowerCase().includes(q) : false;
-        if (!matchesIp && !matchesPort && !matchesSecret) return false;
+        return matchesIp || matchesPort
       }
 
       return true;
